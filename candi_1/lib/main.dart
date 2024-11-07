@@ -1,3 +1,4 @@
+import 'package:candi_1/data/candi_data.dart';
 import 'package:flutter/material.dart';
 import 'package:candi_1/screens/detail_screen.dart';
 
