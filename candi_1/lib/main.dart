@@ -1,8 +1,11 @@
 import 'package:candi_1/data/candi_data.dart';
+import 'package:candi_1/screens/favorite_screen.dart';
+import 'package:candi_1/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:candi_1/screens/detail_screen.dart';
 import 'package:candi_1/screens/profile_screen.dart';
 import 'package:candi_1/screens/signin_screen.dart';
+import 'package:candi_1/screens/main_screen.dart';
 void main() {
   runApp(const MainApp());
 }
@@ -32,8 +35,12 @@ class MainApp extends StatelessWidget {
 
       ), // themaDATA 
       // home: DetailScreen(candi: candiList[0]),
-      // home: ProfilScreen(),
-      home: SignInScreen(),
+      // home: ProfileScreen(),
+      // home: SignInScreen(),
+      // home: FavoriteScreen(),
+      // home: SearchScreen(),
+      // home: HomeScreen(),
+      home: MainScreen(),
       );
     
   }

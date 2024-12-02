@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProfilScreen extends StatefulWidget{
-  const ProfilScreen({super.key});
+class ProfileScreen extends StatefulWidget{
+  const ProfileScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ProfilScreenState();
+  State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfilScreenState extends State<ProfilScreen>{
+class _ProfileScreenState extends State<ProfileScreen>{
   // todo: 1 dekrasikan variabel yang dibutuhkan 
   bool isSigneIn = false;
   String fullName = 'Alfredo Kristian';
@@ -74,7 +74,7 @@ class _ProfilScreenState extends State<ProfilScreen>{
                   ),
                 ),
                 // TODO : 3 BUAT BAGIAN PROFIL INFO (ISINYA INFO PROFIL)
-                // baris 1 profil info 
+                // baris 1 profile info 
                 const SizedBox(height: 20,),
                 Divider(color: Colors.deepPurple[100],),
                 const SizedBox(
