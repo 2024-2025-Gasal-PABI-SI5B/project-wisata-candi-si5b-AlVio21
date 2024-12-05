@@ -42,6 +42,5 @@ class MainApp extends StatelessWidget {
       // home: HomeScreen(),
       home: MainScreen(),
       );
-    
   }
 }
