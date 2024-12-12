@@ -25,6 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
+    _loadFavoriteStatus();
   }
 
   Future<void> _toggleFavorite() async{
@@ -108,7 +109,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         IconButton(
                           onPressed: _toggleFavorite, 
                           icon: Icon(
-                            _isFavorite ? Icons.favorite : Icons.favorite_border
+                            _isFavorite ? Icons.favorite : Icons.favorite_border,
                             ), 
                             color: _isFavorite ? Colors.red : null,
                         )
