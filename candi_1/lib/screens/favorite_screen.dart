@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:candi_1/data/candi_data.dart';
 import 'package:candi_1/models/candi.dart';
 import 'package:candi_1/screens/detail_screen.dart';
-import 'package:candi_1/data/candi_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({Key? key}) : super(key: key);
+  const FavoriteScreen({super.key});
 
   @override
-  _FavoriteScreenState createState() => _FavoriteScreenState();
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  List<Candi> favoriteHomes = [];
+  List<Candi> _favoriteCandis = [];
 
   @override
   void initState() {
     super.initState();
-    _loadFavorites();
+    _loadFavoriteCandis();
   }
 
-  void _loadFavorites() {
-    List<Candi> favorites = candiList.where((candi) => candi.isFavorite).toList();
+  Future<void> _loadFavoriteCandis() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteCandisNames =
+        prefs.getStringList('favoriteCandis') ?? [];
     setState(() {
-      favoriteHomes = favorites;
+      _favoriteCandis = candiList
+          .where((candi) => favoriteCandisNames.contains(candi.name))
+          .toList();
     });
   }
 
@@ -30,38 +35,72 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Text('Favorite'),
       ),
-      body: favoriteHomes.isEmpty
-          ? const Center(
-              child: Text('Tidak ada candi favorit'),
-            )
-          : ListView.builder(
-              itemCount: favoriteHomes.length,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0),
+              padding: const EdgeInsets.all(8),
+              itemCount: _favoriteCandis.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      favoriteHomes[index].imageAsset,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  title: Text(favoriteHomes[index].name),
-                  subtitle: Text(favoriteHomes[index].location),
+                Candi candi = _favoriteCandis[index];
+                return InkWell(
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailScreen(candi: favoriteHomes[index]),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailScreen(candi: candi)));
                   },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    margin: const EdgeInsets.all(6),
+                    elevation: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16)),
+                            child: Image.asset(
+                              candi.imageAsset,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 8),
+                          child: Text(
+                            candi.name,
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 8),
+                          child: Text(
+                            candi.type,
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
-            ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

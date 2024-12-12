@@ -16,9 +16,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _loadFavoriteStatus() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteHomes = prefs.getStringList('favoriteHomes') ?? [];
+    List<String> favoriteCandis = prefs.getStringList('favoriteCandis') ?? [];
     setState(() {
-      _isFavorite = favoriteHomes.contains(widget.candi.name);
+      _isFavorite = favoriteCandis.contains(widget.candi.name);
     });
   }  
 
@@ -29,23 +29,23 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _toggleFavorite() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteHomes = prefs.getStringList('favoriteHomes') ?? [];
+    List<String> favoriteCandis = prefs.getStringList('favoriteCandis') ?? [];
 
     setState(() {
       if(_isFavorite){
-        favoriteHomes.remove(widget.candi.name);
+        favoriteCandis.remove(widget.candi.name);
         _isFavorite = false;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('${widget.candi.name} removed from favorite')));
       } else {
-        favoriteHomes.add(widget.candi.name);
+        favoriteCandis.add(widget.candi.name);
         _isFavorite = true;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('${widget.candi.name} add from favorite')));
       }
     });
 
-    await prefs.setStringList('favoriteHomes', favoriteHomes);
+    await prefs.setStringList('favoriteCandis', favoriteCandis);
   }
   @override
   Widget build(BuildContext context) {
